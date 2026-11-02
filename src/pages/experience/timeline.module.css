@@ -1,0 +1,19 @@
+.timeline { position:relative; max-width: 68rem; margin:0; padding: 0 0 0 2.4rem; list-style:none; }
+.timeline::before { content:''; position:absolute; top: 1rem; bottom:2rem; left:.48rem; width:1px; background:linear-gradient(#bad594,#46563c 85%,transparent); }
+.entry { position:relative; padding: 0 0 1.4rem; }
+.marker { position:absolute; top:2.5rem; left:-2.38rem; width:1rem; height:1rem; border:2px solid #b4ca92; background:#161a15; transform:rotate(45deg); }
+.card { position:relative; display:grid; grid-template-columns: 7rem minmax(0,1fr); gap:1.8rem; padding:clamp(1.2rem,3vw,2.2rem); border:1px solid #394434; background:linear-gradient(120deg,#222a20,#151715 70%); transition:border-color .2s, transform .2s, background .2s; }
+.card:hover,.card:focus-visible { border-color:#b4ca92; transform:translateX(.35rem); outline:none; background:linear-gradient(120deg,#303c29,#1a1e18 70%); }
+.logo { width:7rem; height:7rem; background:#eef0e8; display:flex; align-items:center; justify-content:center; padding:.9rem; color:#283123; font-size:2rem; font-weight:800; }
+.logo img { width:100%; height:100%; object-fit:contain; }
+.content { min-width:0; } .date { color:#b2c896; font-size:.72rem; font-weight:700; letter-spacing:.12em; text-transform:uppercase; }
+.company { color:#d1d7c8; margin-top:1rem; font-size:.9rem; } .content h2 { margin:.35rem 0 .7rem; font-size:clamp(1.25rem,2.5vw,2rem); line-height:1.2; font-weight:700; }
+.summary { color:#bcbfba; line-height:1.6; } .more { display:inline-block; margin-top:1rem; color:#c4d9a7; font-weight:700; font-size:.8rem; }
+.number { position:absolute; top:1rem; right:1.2rem; color:#67765d; font-size:.75rem; }
+@media(max-width:640px) { .timeline { padding-left:1.5rem; } .timeline::before { left:.28rem; } .marker { left:-1.47rem; width:.65rem; height:.65rem; } .card { grid-template-columns: 3.8rem minmax(0,1fr); gap:1rem; padding:1rem; } .logo { width:3.8rem; height:3.8rem; padding:.45rem; font-size:1.2rem; } .number { display:none; } }
+@media(max-width:400px) { .card { grid-template-columns:1fr; } }
+@media(prefers-reduced-motion:reduce) { .card { transition:none; } .card:hover,.card:focus-visible { transform:none; } }
+/* Crisp outlines and offset olive shadows echo the approved timeline. */
+.card { border:1px solid #d2dec8; border-radius:0; box-shadow:.7rem .7rem 0 #435638; margin:0 .8rem .8rem 0; }
+.card:hover,.card:focus-visible { transform:none; border-color:#d8f0b9; outline:2px solid #b4ca92; outline-offset:3px; }
+@media(max-width:640px) { .card { grid-template-columns:1fr; } }

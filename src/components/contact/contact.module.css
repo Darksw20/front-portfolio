@@ -1,0 +1,21 @@
+.page { flex: 1; min-width: 0; width: 100%; max-width: 1600px; margin: 0 auto; padding: clamp(2rem, 5vw, 5rem); }
+.title { font-size: clamp(2.2rem,4.8vw,5rem); line-height: 1.15; margin-bottom: 4rem; }
+.layout { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(2rem,5vw,6rem); }
+.intro { margin-bottom: 2rem; line-height: 1.6; }
+.form { display: grid; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 1rem; }
+.form label { display: grid; gap: .4rem; color: #ddd; font-size: .9rem; }
+.form input, .form textarea { background: #202020; color: white; border: 1px solid #444; width: 100%; padding: .8rem; }
+.form textarea { resize: vertical; }
+.form input:focus-visible, .form textarea:focus-visible { outline: 2px solid white; }
+.full { grid-column: 1 / -1; }
+.form button { border: 1px solid white; padding: .75rem 1.5rem; justify-self: start; }
+.form button:disabled { opacity: .5; }
+.honeypot { position: absolute; left: -10000px; }
+.location { min-height: 26rem; border: 1px solid #333; background: radial-gradient(circle at 60% 40%,#393d3a,#1c201f 60%,#121413); display: flex; flex-direction: column; justify-content: center; align-items: center; gap: 1rem; }
+.location span { font-size: .75rem; color: #aaa; letter-spacing: .25em; }
+.location strong { font-size: clamp(1.4rem, 2vw, 2rem); }
+@media (max-width: 700px) { .page { padding: 2rem 1.25rem; } .title { margin-bottom: 2.5rem; overflow-wrap: anywhere; } .layout, .form { grid-template-columns: 1fr; } .full { grid-column: auto; } .location { min-height: 12rem; } }
+.layout > section,.location { border:1px solid #354036; border-radius:.6rem; background:#151a17; padding:clamp(1.2rem,3vw,2rem); }
+.form input,.form textarea { border-radius:.35rem; border-color:#566052; min-height:3rem; }
+.form button { background:#435a32; border-color:#9fbf7e; border-radius:.3rem; }
+.location { background:radial-gradient(circle at 50% 35%,#34432d,#171d18 45%,#121613); }

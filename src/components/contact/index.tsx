@@ -1,129 +1,44 @@
-import Head from "next/head";
-import Image from "next/image";
-import { useRouter } from "next/router";
+import { useI18n } from '@/lib/i18n';
 import { useState } from "react";
-
-import { Inter } from "next/font/google";
-import styles from "@/styles/Home.module.css";
 import localFont from "next/font/local";
+import styles from "./contact.module.css";
 
-const inter = Inter({ subsets: ["latin"] });
-export const gameFont = localFont({
-	src: "../../../public/fonts/upheavtt.ttf",
-});
-export const futuraFont = localFont({
-	src: "../../../public/fonts/futura medium bt.ttf",
-});
-
-const ENDPOINT = process.env.NEXT_PUBLIC_BACKEND_ENDPOINT;
+export const gameFont = localFont({ src: "../../../public/fonts/upheavtt.ttf" });
+export const futuraFont = localFont({ src: "../../../public/fonts/futura medium bt.ttf" });
 
 export default function Contact() {
-	const router = useRouter();
-	const user = router.query?.user ?? process.env.NEXT_PUBLIC_DEFAULT_PROFILE;
+  const {t}=useI18n();
+  const [status, setStatus] = useState<"idle" | "sending" | "success" | "error" | "limited">("idle");
 
-	// State to manage form data
-	const [name, setName] = useState<string>("");
-	const [email, setEmail] = useState<string>("");
-	const [title, setTitle] = useState<string>("");
-	const [message, setMessage] = useState<string>("");
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const form = event.currentTarget;
+    const data = new FormData(form);
+    const backend = process.env.NEXT_PUBLIC_BACKEND_URL?.replace(/\/$/, "");
+    if (!backend) { setStatus("error"); return; }
+    setStatus("sending");
+    try {
+      const response = await fetch(`${backend}/v1/public/contact`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(Object.fromEntries(data.entries())),
+      });
+      if (response.status === 429) { setStatus("limited"); return; }
+      if (!response.ok) throw new Error("Contact submission failed");
+      form.reset();
+      setStatus("success");
+    } catch {
+      setStatus("error");
+    }
+  }
 
-	// Handle form submission
-	const handleSubmit = async (event: React.FormEvent) => {
-		event.preventDefault();
-
-		const payload = {
-			profile: user,
-			name,
-			email,
-			title,
-			message,
-		};
-
-		try {
-			const response = await fetch(`${ENDPOINT}/contact`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify(payload),
-			});
-
-			if (response.ok) {
-				console.log("Message sent successfully");
-				// Optionally clear the form or show a success message
-			} else {
-				console.error("Failed to send message");
-			}
-		} catch (error) {
-			console.error("An error occurred while sending the message", error);
-		}
-	};
-
-	return (
-		<div className="flex flex-col m-10">
-			<div className={gameFont.className}>
-				<h1 className="text-6xl">{"> Contact Me_"}</h1>
-			</div>
-			<div className="flex justify-center bg-neutral-800 m-8 rounded-lg flex flex-col">
-				<div className="m-10">
-					<p>
-						If you have any question, please don’t hesitate to contact using the
-						form below...
-					</p>
-				</div>
-				<div className="m-8">
-					<form className="flex flex-col" onSubmit={handleSubmit}>
-						<div className="form-group m-8 self-center">
-							<input
-								type="text"
-								className="form-control"
-								placeholder="Name"
-								value={name}
-								onChange={(e) => setName(e.target.value)}
-							/>
-						</div>
-						<div className="form-group m-8 self-center">
-							<input
-								type="email"
-								className="form-control"
-								placeholder="Email"
-								value={email}
-								onChange={(e) => setEmail(e.target.value)}
-							/>
-						</div>
-						<div className="form-group m-8 self-center">
-							<input
-								type="text"
-								className="form-control"
-								placeholder="Title"
-								value={title}
-								onChange={(e) => setTitle(e.target.value)}
-							/>
-						</div>
-						<div className="form-group m-8 self-center">
-							<textarea
-								className="form-control"
-								placeholder="Message"
-								value={message}
-								onChange={(e) => setMessage(e.target.value)}
-							></textarea>
-						</div>
-						<div className="titles self-center">
-							<button
-								type="submit"
-								style={{
-									border: "2px solid white",
-									borderRadius: "6px",
-									padding: "10px",
-									fontSize: "larger",
-								}}
-							>
-								{"Send"}
-							</button>
-						</div>
-					</form>
-				</div>
-			</div>
-		</div>
-	);
+  return <main className={styles.page}><h1 className={`${gameFont.className} ${styles.title}`}>{`> ${t.contactTitle}_`}</h1><div className={styles.layout}><section><p className={styles.intro}>{t.contactIntro}</p><form className={styles.form} onSubmit={handleSubmit}>
+    <label>{t.name}<input name="name" type="text" required maxLength={160} autoComplete="name" /></label>
+    <label>{t.email}<input name="email" type="email" required maxLength={320} autoComplete="email" /></label>
+    <label className={styles.full}>{t.subject}<input name="subject" type="text" maxLength={255} /></label>
+    <label className={styles.full}>{t.message}<textarea name="message" required minLength={10} maxLength={10000} rows={7} /></label>
+    <div className={styles.honeypot} aria-hidden="true"><label>Website<input name="website" type="text" tabIndex={-1} autoComplete="off" /></label></div>
+    <button type="submit" disabled={status === "sending"}>{status === "sending" ? t.sending : t.send}</button>
+    <p className={styles.full} role="status" aria-live="polite">{status === "success" && t.sent}{status === "error" && t.sendError}{status === "limited" && t.limited}</p>
+  </form></section><aside className={styles.location}><span>GUADALAJARA</span><strong>{t.location}</strong></aside></div></main>;
 }
