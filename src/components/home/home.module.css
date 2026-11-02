@@ -1,0 +1,14 @@
+.home { flex: 1; min-width: 0; min-height: 100svh; display: grid; grid-template-columns: minmax(0,1.15fr) minmax(0,.85fr); align-items: center; gap: clamp(2rem,5vw,6rem); padding: clamp(2rem,6vw,6rem); max-width: 1600px; margin: 0 auto; }
+.content { max-width: 42rem; }
+.eyebrow { color: #a9bd87; font: .72rem monospace; letter-spacing: .18em; margin-bottom: 1.3rem; }
+.title { font-size: clamp(2.5rem,5.3vw,5.8rem); line-height: 1.15; overflow-wrap: anywhere; }
+.headline { color: #b5bdb0; font-size: clamp(1rem,1.5vw,1.25rem); line-height: 1.5; margin-top: 1.5rem; }
+.contact { display: inline-flex; gap: 2.5rem; align-items: center; border: 1px solid #a8b98b; padding: .85rem 1rem; margin-top: 2.5rem; color: #f2f5ed; }
+.contact:hover, .contact:focus-visible { background: #303b29; }
+.mark { position: relative; display: flex; align-items: center; justify-content: center; min-width: 0; isolation: isolate; }
+.logo { position: relative; z-index: 2; display: block; width: auto; height: auto; max-height: min(66svh, 37rem); max-width: min(100%, 25rem); object-fit: contain; filter: drop-shadow(0 0 1.8rem #a0b87918); }
+.halo { position: absolute; width: min(100%, 25rem); aspect-ratio: 1; border-radius: 50%; background: radial-gradient(circle, #879d4730, #5b70300b 50%, transparent 70%); z-index: -1; }
+.orbit { position: absolute; top: 56%; width: min(100%, 24rem); aspect-ratio: 1; border: 1px solid #b3c88455; border-radius: 50%; transform: rotate(-18deg) scaleY(.4); z-index: 3; pointer-events: none; }
+.orbit span { position: absolute; left: 11%; top: 15%; width: .45rem; height: .45rem; border-radius: 50%; background: #ccdfa1; box-shadow: 0 0 1rem #b8d383; }
+@media (prefers-reduced-motion: no-preference) { .logo { animation: welcome-mark 1.1s ease-out both; } .orbit { animation: orbit 22s linear infinite; } @keyframes welcome-mark { from { opacity: 0; transform: translateY(1rem) scale(.96); } to { opacity: 1; transform: translateY(0) scale(1); } } @keyframes orbit { from { transform: rotate(-18deg) scaleY(.4) rotate(0); } to { transform: rotate(-18deg) scaleY(.4) rotate(360deg); } } }
+@media (max-width: 700px) { .home { min-height: auto; grid-template-columns: 1fr; gap: 1rem; padding: 3rem 1.4rem 2rem; text-align: center; } .content { margin: auto; } .logo { max-height: 48svh; max-width: 15rem; } .mark { min-height: 15rem; } .orbit { width: min(80%, 16rem); } .contact { margin-top: 1.5rem; } }

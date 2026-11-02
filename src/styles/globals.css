@@ -109,3 +109,34 @@ a {
     color-scheme: dark;
   }
 }
+/* The portfolio's visual direction is a dark canvas at every system theme. */
+body { background: #101010; color: #f5f5f5; }
+.sidebar { flex: 0 0 4rem; z-index: 10; }
+@media (max-width: 640px) {
+  .sidebar { width: 3.5rem; flex-basis: 3.5rem; }
+  .sidebar svg { max-width: 1.7rem; }
+}
+@media (max-width: 640px) {
+  .text-6xl { font-size: clamp(2rem, 9vw, 3rem); line-height: 1.15; overflow-wrap: anywhere; }
+  .m-10 { margin: 1rem; }
+}
+@media (max-width: 640px) {
+  body { padding-bottom: calc(4rem + env(safe-area-inset-bottom)); }
+  body > #__next > div.flex.flex-row { min-width: 0; }
+  body > #__next > div.flex.flex-row > main { width: 100%; min-width: 0; }
+}
+
+/* The desktop navigation stays in place independently of document scrolling. */
+@media (min-width: 641px) { #__next > .flex.flex-row { padding-left: 4.5rem; } }
+@media (max-width: 640px) { #__next > .flex.flex-row { padding-left: 0; } }
+/* Subtle decoration is limited to non-interactive headings. */
+main h1 { text-shadow: 0 0 18px rgba(174, 193, 128, .12); }
+@media (prefers-reduced-motion: no-preference) {
+  main h1 { animation: heading-appear .7s ease-out both; }
+  @keyframes heading-appear { from { opacity: .45; transform: translateY(.3rem); } to { opacity: 1; transform: translateY(0); } }
+}
+@font-face { font-family: 'Portfolio Futura'; src: url('/fonts/futura%20medium%20bt.ttf') format('truetype'); font-display: swap; }
+body { font-family: 'Portfolio Futura', Arial, sans-serif; }
+main h1 { text-shadow: 0 0 24px rgba(176, 196, 127, .2); }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) { main h1 { transition: color .3s ease, text-shadow .3s ease; } main h1:hover { color: #d4e2be; text-shadow: 0 0 22px #9bb67488; } }

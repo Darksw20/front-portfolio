@@ -1,0 +1,53 @@
+.sidebar { position: fixed; left: 0; top: 0; flex: 0 0 4.5rem; width: 4.5rem; height: 100vh; background: #1c1c1c; display: flex; flex-direction: column; align-items: stretch; justify-content: space-between; z-index: 20; }
+.navigation { display: flex; flex-direction: column; align-items: stretch; }
+.navLink, .extraLink { color: #ddd; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: .15rem; min-height: 4.25rem; text-align: center; }
+.brandMark { width: 1.45rem; height: 2.1rem; object-fit: contain; }
+.navLink svg, .extraLink svg { font-size: 1.7rem; }
+.navLink span { font-size: .58rem; line-height: 1; }
+.navLink:hover, .extraLink:hover { background: #2e3428; color: #fff; }
+.navLink[aria-current=page] { background: #35402a; color: #e0efc5; }
+.navLink:focus-visible, .extraLink:focus-visible { outline: 2px solid #fff; outline-offset: -3px; }
+.extras { display: flex; flex-direction: column; width: 100%; }
+.extraLink span { display: none; }
+.more { display: none; }
+@media (max-width: 640px) {
+  .sidebar { position: fixed; top: auto; bottom: 0; left: 0; right: 0; width: 100%; height: auto; flex-direction: row; justify-content: stretch; padding-bottom: env(safe-area-inset-bottom); box-shadow: 0 -3px 16px #0008; }
+  .navigation { flex: 1; min-width: 0; flex-direction: row; }
+  .navLink { flex: 1; min-width: 0; min-height: 3.7rem; }
+  .brandMark { height: 1.8rem; width: 1.25rem; }
+  .navLink svg { font-size: 1.45rem; }
+  .navLink span { font-size: .55rem; }
+  .more { display: flex; flex: 0 0 15%; border: 0; background: none; }
+  .extras { display: none; position: absolute; bottom: calc(100% - 1px); right: 0; width: min(17rem, 100vw); background: #222; border: 1px solid #444; padding: .5rem; }
+  .extrasOpen { display: flex; }
+  .extraLink { flex-direction: row; justify-content: flex-start; gap: .75rem; padding: .5rem; min-height: 2.8rem; }
+  .extraLink span { display: inline; }
+}
+/* Three independent groups remain distributed along the fixed rail. */
+@media (min-width: 641px) {
+  .navigation { height: 100%; display: grid; grid-template-rows: 1fr auto 1fr; }
+  .homeGroup { align-self: start; }
+  .extras { align-self: end; }
+  .homeGroup, .mainGroup { display: flex; flex-direction: column; }
+  .sidebar { overflow-y: auto; }
+}
+@media (max-width: 640px) {
+  .homeGroup { display: flex; flex: 1; min-width: 0; }
+  .mainGroup { display: flex; flex: 4; min-width: 0; }
+  .homeGroup .navLink, .mainGroup .navLink { width: 100%; }
+  .extras .navLink { flex: none; flex-direction: row; justify-content: flex-start; gap: .75rem; padding: .5rem; min-height: 2.8rem; }
+  .extras .navLink span { font-size: 1rem; }
+}
+.language { border:0; width:100%; background:transparent; color:#ddd; min-height:4.25rem; display:flex; flex-direction:column; align-items:center; justify-content:center; gap:.12rem; cursor:pointer; }
+.language:hover,.language[aria-expanded=true] { background:#2e3428; color:#e0efc5; }
+.language:focus-visible { outline:2px solid #fff; outline-offset:-3px; }
+.languageLabel { display:none; }
+.languageCode { display:flex; align-items:center; gap:.05rem; font-size:.62rem; font-weight:700; letter-spacing:.06em; line-height:1; }
+.languageMenu { position:fixed; z-index:100; width:13rem; padding:.35rem; background:#20251d; border:1px solid #65745a; box-shadow:0 12px 28px #0009; }
+.languageMenu button { color:#e9eee5; width:100%; min-height:2.85rem; display:flex; align-items:center; justify-content:space-between; text-align:left; border:0; background:none; padding:.55rem .7rem; cursor:pointer; font-size:.9rem; }
+.languageMenu button:hover,.languageMenu button:focus-visible { outline:none; background:#35402a; }
+.languageMenu button[aria-checked=true] { color:#d1e4b5; }
+.languageMenu button small { color:#a6b19e; margin-left:.5rem; font-size:.7rem; }
+.languageMenu button svg { font-size:1.1rem; }
+.languageError { color:#ffc1b5; font-size:.68rem; overflow-wrap:anywhere; padding:.3rem; }
+@media(max-width:640px) { .language { padding:.4rem; min-height:3.7rem; } .languageCode { font-size:.7rem; } }

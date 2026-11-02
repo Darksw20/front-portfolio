@@ -1,48 +1,18 @@
-import Head from "next/head";
-import Image from "next/image";
+import { useI18n } from '@/lib/i18n';
+import { useEffect, useState } from "react";
+import Logo from "@/components/logo";
 import Link from "next/link";
-import { useRouter } from "next/router";
-
-import { Inter } from "next/font/google";
 import localFont from "next/font/local";
-import styles from "@/styles/Home.module.css";
-
-const inter = Inter({ subsets: ["latin"] });
+import { publicApi } from "@/lib/public-api";
+import styles from "./home.module.css";
 const gameFont = localFont({ src: "../../../public/fonts/upheavtt.ttf" });
-const futuraFont = localFont({
-	src: "../../../public/fonts/futura medium bt.ttf",
-});
-
+type Profile = { displayName: string; headline: string };
 export default function Home() {
-	const router = useRouter();
-	return (
-		<div className="container mx-auto basis-11/12 flex  items-center">
-			<div className={gameFont.className}>
-				<div className={"align-middle text-center px-10"}>
-					<h1 className="text-6xl">
-						{"> Hi, I´m Ricardo Navarro_" + (router.query.user ?? "")}
-					</h1>
-					<h2 className={futuraFont.className + " text-sm text-stone-300"}>
-						{"DevOps / Fullstack Developer / Tech Enthusiast"}
-					</h2>
-					<br />
-					<Link href="/contact">
-						<button
-							style={{
-								border: "2px solid white",
-								borderRadius: "6px",
-								padding: "10px",
-								fontSize: "larger",
-							}}
-						>
-							{"Contact Me"}
-						</button>
-					</Link>
-				</div>
-			</div>
-			<div className="titles">
-				<Image src="/img/cuervo.png" alt="cuervo" width={250} height={250} />
-			</div>
-		</div>
-	);
+  const {locale,t}=useI18n();
+  const [profile, setProfile] = useState<Profile | null>(null);
+  useEffect(() => { let active=true; setProfile(null); publicApi<Profile>("/v1/public/profile",locale).then(value => { if(active)setProfile(value) }).catch(() => { if(active)setProfile(null) }); return () => { active=false }; }, [locale]);
+  return <main className={styles.home}>
+    <div className={styles.content}><p className={styles.eyebrow}>{t.welcome}</p><h1 className={`${gameFont.className} ${styles.title}`}>{profile ? `> ${profile.displayName}_` : `> ${t.portfolio}_`}</h1>{profile && <p className={styles.headline}>{profile.headline}</p>}<Link className={styles.contact} href="/contact">{t.contact} <span aria-hidden="true">↗</span></Link></div>
+    <div className={styles.mark} aria-label={t.mark} role="img"><div className={styles.halo} aria-hidden="true"/><div className={styles.orbit} aria-hidden="true"><span /></div><Logo className={styles.logo} /></div>
+  </main>;
 }
